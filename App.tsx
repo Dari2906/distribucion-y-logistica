@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ClientesTab } from './ClientesTab';
-import { ProductosTab } from './ProductosTab';
-import { ProveedoresTab } from './ProveedoresTab';
-import { RemitosTab } from './RemitosTab';
-import { IngresosStockTab } from './IngresosStockTab';
+import { ClientesTab } from './ClientesTab.tsx';
+import { ProductosTab } from './ProductosTab.tsx';
+import { ProveedoresTab } from './ProveedoresTab.tsx';
+import { RemitosTab } from './RemitosTab.tsx';
+import { IngresosStockTab } from './IngresosStockTab.tsx';
 import { DepositoModule } from './DepositoModule';
 import { MiEmpresaTab } from './MiEmpresaTab';
 import { RemitoPrintView } from './RemitoPrintView';
