@@ -1,27 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 body {
-  font-family: var(--font-sans);
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  background-color: #f8fafc;
+  color: #0f172a;
 }
 
-.font-mono {
-  font-family: var(--font-mono);
-}
-
-/* Custom Print styles */
+/* Print styles */
 @media print {
   @page { size: A4 portrait; margin: 8mm; }
-  body { background: white !important; color: black !important; margin: 0 !important; padding: 0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { background: white !important; color: black !important; }
   body * { visibility: hidden; }
   #remito-print-area, #remito-print-area * { visibility: visible !important; }
-  #remito-print-area { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; margin: 0 !important; padding: 0 !important; border: none !important; box-shadow: none !important; background: white !important; color: black !important; }
-  tr { page-break-inside: avoid !important; break-inside: avoid !important; }
+  #remito-print-area { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; }
 }
