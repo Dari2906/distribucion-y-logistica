@@ -1,93 +1,109 @@
-export interface Proveedor {
-  id: string;
-  nombre: string;
-  cuit: string;
-  telefono: string;
-  email: string;
-  direccion: string;
-  ciudad: string;
-  contacto?: string; // Nombre de persona de contacto / representante
+import React, { useState, useEffect } from 'react';
+import './index.css';
+import { Cliente, Producto, Proveedor, Remito, DatosEmpresa, ItemRemito } from './types';
+import { INITIAL_CLIENTES, INITIAL_PRODUCTOS, INITIAL_PROVEEDORES, INITIAL_REMITOS, INITIAL_DATOS_EMPRESA } from './mockData';
+import ClientesTab from './ClientesTab';
+import ProductosTab from './ProductosTab';
+import ProveedoresTab from './ProveedoresTab';
+import RemitosTab from './RemitosTab';
+import DepositoModule from './DepositoModule';
+import MiEmpresaTab from './MiEmpresaTab';
+import IngresosStockTab from './IngresosStockTab';
+import RemitoPrintView from './RemitoPrintView';
+
+type Tab = 'remitos' | 'productos' | 'clientes' | 'proveedores' | 'deposito' | 'ingresos' | 'empresa';
+
+const LOCAL_STORAGE_KEY = 'distribucion-logistica-data-v1';
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState<Tab>('remitos');
+  const [clientes, setClientes] = useState<Cliente[]>([]);
+  const [productos, setProductos] = useState<Producto[]>([]);
+  const [proveedores, setProveedores] = useState<Proveedor[]>([]);
+  const [remitos, setRemitos] = useState<Remito[]>([]);
+  const [datosEmpresa, setDatosEmpresa] = useState<DatosEmpresa>(INITIAL_DATOS_EMPRESA);
+  const [remitoAImprimir, setRemitoAImprimir] = useState<Remito | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Cargar datos de localStorage
+  useEffect(() => {
+    const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (savedData) {
+      const data = JSON.parse(savedData);
+      setClientes(data.clientes || INITIAL_CLIENTES);
+      setProductos(data.productos || INITIAL_PRODUCTOS);
+      setProveedores(data.proveedores || INITIAL_PROVEEDORES);
+      setRemitos(data.remitos || INITIAL_REMITOS);
+      setDatosEmpresa(data.datosEmpresa || INITIAL_DATOS_EMPRESA);
+    } else {
+      setClientes(INITIAL_CLIENTES);
+      setProductos(INITIAL_PRODUCTOS);
+      setProveedores(INITIAL_PROVEEDORES);
+      setRemitos(INITIAL_REMITOS);
+      setDatosEmpresa(INITIAL_DATOS_EMPRESA);
+    }
+    setLoading(false);
+  }, []);
+
+  // Guardar datos en localStorage
+  useEffect(() => {
+    if (!loading) {
+      const data = { clientes, productos, proveedores, remitos, datosEmpresa };
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+    }
+  }, [clientes, productos, proveedores, remitos, datosEmpresa, loading]);
+
+  const handlePrintRemito = (remito: Remito) => {
+    setRemitoAImprimir(remito);
+  };
+
+  const clienteDelRemito = clientes.find(c => c.id === remitoAImprimir?.clienteId);
+
+  if (loading) {
+    return <div className="flex items-center justify-center h-screen">Cargando...</div>;
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <h1 className="text-xl font-bold">{datosEmpresa.nombre}</h1>
+            <nav className="flex gap-2 overflow-x-auto">
+              <button onClick={() => setActiveTab('remitos')} className={`px-3 py-2 rounded-lg text-sm font-medium ${activeTab === 'remitos' ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Remitos</button>
+              <button onClick={() => setActiveTab('productos')} className={`px-3 py-2 rounded-lg text-sm font-medium ${activeTab === 'productos' ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Productos</button>
+              <button onClick={() => setActiveTab('clientes')} className={`px-3 py-2 rounded-lg text-sm font-medium ${activeTab === 'clientes' ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Clientes</button>
+              <button onClick={() => setActiveTab('proveedores')} className={`px-3 py-2 rounded-lg text-sm font-medium ${activeTab === 'proveedores' ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Proveedores</button>
+              <button onClick={() => setActiveTab('ingresos')} className={`px-3 py-2 rounded-lg text-sm font-medium ${activeTab === 'ingresos' ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Ingresos</button>
+              <button onClick={() => setActiveTab('deposito')} className={`px-3 py-2 rounded-lg text-sm font-medium ${activeTab === 'deposito' ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Depósito</button>
+              <button onClick={() => setActiveTab('empresa')} className={`px-3 py-2 rounded-lg text-sm font-medium ${activeTab === 'empresa' ? 'bg-slate-900 text-white' : 'hover:bg-slate-100'}`}>Empresa</button>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {activeTab === 'remitos' && <RemitosTab remitos={remitos} setRemitos={setRemitos} clientes={clientes} productos={productos} onPrint={handlePrintRemito} />}
+        {activeTab === 'productos' && <ProductosTab productos={productos} setProductos={setProductos} />}
+        {activeTab === 'clientes' && <ClientesTab clientes={clientes} setClientes={setClientes} />}
+        {activeTab === 'proveedores' && <ProveedoresTab proveedores={proveedores} setProveedores={setProveedores} />}
+        {activeTab === 'ingresos' && <IngresosStockTab productos={productos} setProductos={setProductos} />}
+        {activeTab === 'deposito' && <DepositoModule productos={productos} />}
+        {activeTab === 'empresa' && <MiEmpresaTab datosEmpresa={datosEmpresa} setDatosEmpresa={setDatosEmpresa} />}
+      </main>
+
+      {/* Modal de impresión */}
+      {remitoAImprimir && clienteDelRemito && (
+        <RemitoPrintView
+          remito={remitoAImprimir}
+          cliente={clienteDelRemito}
+          productos={productos}
+          datosEmpresa={datosEmpresa}
+          onClose={() => setRemitoAImprimir(null)}
+        />
+      )}
+    </div>
+  );
 }
-
-export interface Producto {
-  id: string;
-  codigoInterno: string; // Código asignado por la empresa (SKU interno)
-  codigoProveedor?: string; // Código asignado por el proveedor
-  codigo: string; // Mantenido para compatibilidad
-  nombre: string;
-  descripcion: string;
-  costo: number; // Costo de compra/producción
-  porcentajeGanancia: number; // Porcentaje de ganancia a aplicar (%)
-  precio: number; // Precio de venta (calculado)
-  stock: number;
-  stockMinimo?: number; // Umbral de alerta de bajo stock
-  proveedorId: string; // Relacionado con Proveedor
-}
-
-export interface Cliente {
-  id: string;
-  nombre: string;
-  cuitDni: string;
-  telefono: string;
-  email: string;
-  direccion: string;
-  ciudad: string;
-  contacto?: string; // Nombre de la persona de contacto
-  ultimoContacto?: string; // Fecha del último contacto (YYYY-MM-DD)
-  frecuenciaContactoDias?: number; // Frecuencia deseada de contacto en días (ej. 15, 30, 60)
-  notasContacto?: string; // Observaciones o detalle de última llamada/reunión
-}
-
-export interface RemitoItem {
-  productoId: string;
-  cantidad: number;
-  precioUnitario: number;
-  preparado?: boolean;
-}
-
-export interface Remito {
-  id: string;
-  numero: string; // Formato: R-0001-00000001
-  fecha: string;
-  clienteId: string;
-  items: RemitoItem[];
-  observaciones: string;
-  estado: 'Borrador' | 'En Preparación' | 'Listo para Entrega' | 'Entregado' | 'Cancelado';
-}
-
-export interface IngresoStockItem {
-  id: string;
-  productoId: string;
-  cantidad: number;
-  costoUnitario?: number;
-}
-
-export interface IngresoStock {
-  id: string;
-  fecha: string; // YYYY-MM-DD
-  proveedorId: string;
-  comprobante?: string; // Ej: Factura A-0001-12345678, Remito Proveedor #456
-  observaciones?: string;
-  items: IngresoStockItem[];
-}
-
-export interface DatosEmpresa {
-  nombre: string;
-  subtitulo: string;
-  direccion: string;
-  telefono: string;
-  email: string;
-  web: string;
-  cuit: string;
-  iibb: string;
-  inicioActividades: string;
-}
-
-export interface ModuleSecurityConfig {
-  adminPass: string;
-  depositoPass: string;
-  requireAdminPass: boolean;
-  requireDepositoPass: boolean;
-}
-
-
