@@ -1,0 +1,6 @@
+{
+  "name": "Gestión de Remitos y Clientes",
+  "description": "Plataforma para cargar proveedores, productos, clientes y generar e imprimir remitos de entrega.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
