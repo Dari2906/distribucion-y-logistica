@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ClientesTab } from './ClientesTab';
-import { ProductosTab } from './ProductosTab';
-import { ProveedoresTab } from './ProveedoresTab';
-import { RemitosTab } from './RemitosTab';
-import { IngresosStockTab } from './IngresosStockTab';
-import { DepositoModule } from './DepositoModule';
-import { MiEmpresaTab } from './MiEmpresaTab';
-import { RemitoPrintView } from './RemitoPrintView';
-import { Truck, Box, Users, FileText, ArrowDownToLine, Warehouse, Building, type LucideIcon } from 'lucide-react';
-import { initialMockData } from './mockData';
-import type { AppData, ActiveView, Cliente, Producto, Proveedor, Remito, IngresoStock, EmpresaData } from './types';
-
+import { useState } from 'react'
+import ClientesTab from './ClientesTab'
+import ProductosTab from './ProductosTab' 
+import ProveedoresTab from './ProveedoresTab'
+import IngresosStockTab from './IngresosStockTab'
+import DepositoModule from './DepositoModule'
+import MiEmpresaTab from './MiEmpresaTab'
+import RemitosTab from './RemitosTab'
+import { ActiveView, AppData, Producto, Cliente, Proveedor, Remito, DatosEmpresa } from './types'
 type NavItem = { id: ActiveView; label: string; icon: LucideIcon };
 
 const navItems: NavItem[] = [
