@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ClientesTab } from './ClientesTab';
 import { ProductosTab } from './ProductosTab';
 import { ProveedoresTab } from './ProveedoresTab';
-import { RemitosTab } from './RemitosTab';
+import { RemitosTab } from './remitostab';
 import { IngresosStockTab } from './IngresosStockTab';
 import { DepositoModule } from './DepositoModule';
 import { MiEmpresaTab } from './MiEmpresaTab';
