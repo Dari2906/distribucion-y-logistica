@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { ClientesTab } from './ClientesTab.tsx';
-import { ProductosTab } from './ProductosTab.tsx';
-import { ProveedoresTab } from './ProveedoresTab.tsx';
-import { RemitosTab } from './RemitosTab.tsx';
-import { IngresosStockTab } from './IngresosStockTab.tsx';
+import { ClientesTab } from './ClientesTab';
+import { ProductosTab } from './ProductosTab';
+import { ProveedoresTab } from './ProveedoresTab';
+import { RemitosTab } from './RemitosTab';
+import { IngresosStockTab } from './IngresosStockTab';
 import { DepositoModule } from './DepositoModule';
 import { MiEmpresaTab } from './MiEmpresaTab';
 import { RemitoPrintView } from './RemitoPrintView';
@@ -76,7 +76,7 @@ export default function App() {
   return (
     <>
       <div className="flex h-screen bg-slate-100 font-sans text-slate-800">
-        <aside className="w-64 bg-white shadow-md flex flex-col">
+        <aside className="w-64 bg-white shadow-md flex-col">
           <div className="p-6 border-b">
             <h1 className="text-2xl font-bold text-slate-900">Distribución</h1>
           </div>
