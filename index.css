@@ -1,17 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-body {
-  font-family: "Inter", sans-serif;
-  margin: 0;
-  background-color: #f8fafc;
-  color: #0f172a;
-}
-
-/* Print styles */
-@media print {
-  @page { size: A4 portrait; margin: 8mm; }
-  body { background: white !important; color: black !important; }
-  body * { visibility: hidden; }
-  #remito-print-area, #remito-print-area * { visibility: visible !important; }
-  #remito-print-area { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; }
+body { 
+  font-family: sans-serif; 
+  margin: 0; 
+  background: #f8fafc; 
 }
