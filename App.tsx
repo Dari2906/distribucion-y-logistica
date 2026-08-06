@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { ClientesTab } from './ClientesTab';
 import { ProductosTab } from './ProductosTab';
 import { ProveedoresTab } from './ProveedoresTab';
-import { RemitosTab } from './remitostab';
+import { RemitosTab } from './RemitosTab';
 import { IngresosStockTab } from './IngresosStockTab';
 import { DepositoModule } from './DepositoModule';
 import { MiEmpresaTab } from './MiEmpresaTab';
@@ -76,7 +76,7 @@ export default function App() {
   return (
     <>
       <div className="flex h-screen bg-slate-100 font-sans text-slate-800">
-        <aside className="w-64 bg-white shadow-md flex-col">
+        <aside className="w-64 bg-white shadow-md flex flex-col">
           <div className="p-6 border-b">
             <h1 className="text-2xl font-bold text-slate-900">Distribución</h1>
           </div>
